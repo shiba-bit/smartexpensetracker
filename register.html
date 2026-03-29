@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - SMART EXPENSE TRACKER</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body class="auth-page">
+
+    <div class="spinner-overlay" id="loading-spinner">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="glass-panel auth-container">
+        <div class="auth-header">
+            <i class="fa-solid fa-user-plus auth-logo"></i>
+            <h1 class="auth-title">Create Account</h1>
+            <p class="auth-subtitle">Track your daily expenses smarter</p>
+        </div>
+
+        <form id="register-form" class="auth-form">
+            <div class="form-group">
+                <label class="form-label" for="name">Full Name</label>
+                <div style="position: relative;">
+                    <i class="fa-regular fa-user" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-secondary);"></i>
+                    <input type="text" id="name" class="form-control" style="padding-left: 2.5rem;" placeholder="John Doe" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="email">Email Address</label>
+                <div style="position: relative;">
+                    <i class="fa-regular fa-envelope" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-secondary);"></i>
+                    <input type="email" id="email" class="form-control" style="padding-left: 2.5rem;" placeholder="you@example.com" required>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 1rem;">
+                <div class="form-group" style="flex: 1;">
+                    <label class="form-label" for="phone">Phone Number</label>
+                    <input type="tel" id="phone" class="form-control" placeholder="(Optional)">
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label class="form-label" for="occupation">Occupation</label>
+                    <select id="occupation" class="form-control">
+                        <option value="" disabled selected>Select (Optional)</option>
+                        <option value="Student">Student</option>
+                        <option value="Employed">Employed</option>
+                        <option value="Self Employed">Self Employed</option>
+                        <option value="Business Owner">Business Owner</option>
+                        <option value="Freelancer">Freelancer</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="password">Password</label>
+                <div style="position: relative;">
+                    <i class="fa-solid fa-lock" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-secondary);"></i>
+                    <input type="password" id="password" class="form-control" style="padding-left: 2.5rem;" placeholder="Create a password" required minlength="6">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+                Register <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </form>
+
+        <div class="auth-links">
+            Already have an account? <a href="login.html">Login here</a>
+        </div>
+    </div>
+
+    <!-- Firebase App -->
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/utils.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module">
+        import { handleRegister } from './js/auth.js';
+        
+        document.getElementById('register-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const occupation = document.getElementById('occupation').value;
+            const password = document.getElementById('password').value;
+            
+            handleRegister(email, password, { name, phone, occupation });
+        });
+    </script>
+</body>
+</html>
+
+
+
