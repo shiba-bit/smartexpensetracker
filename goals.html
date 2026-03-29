@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savings Goals - SMART EXPENSE TRACKER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .goals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+        .goal-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            position: relative;
+            transition: var(--transition);
+        }
+        .goal-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+        .goal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        .goal-icon {
+            width: 50px; height: 50px;
+            border-radius: 12px;
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--accent-color);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; margin-bottom: 1rem;
+        }
+        .goal-menu {
+            position: absolute; top: 1rem; right: 1rem;
+            cursor: pointer; color: var(--text-secondary);
+        }
+        .goal-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.2rem; }
+        .goal-deadline { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem; }
+        .goal-amounts {
+            display: flex; justify-content: space-between; font-size: 0.9rem; font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .add-funds-btn {
+            width: 100%; margin-top: 1rem; padding: 0.5rem; font-size: 0.9rem;
+        }
+        
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: var(--bg-secondary); padding: 2rem; border-radius: var(--radius-lg);
+            width: 100%; max-width: 500px; border: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="spinner-overlay" id="loading-spinner"><div class="spinner"></div></div>
+
+    <div id="app-container">
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 1.5rem;">
+            <button class="btn btn-primary" id="btn-add-goal">
+                <i class="fa-solid fa-plus"></i> Create Goal
+            </button>
+        </div>
+
+        <div id="goals-container" class="goals-grid">
+            <!-- Populated by JS -->
+        </div>
+        <div id="empty-state" class="empty-state hidden">
+            <i class="fa-solid fa-bullseye"></i>
+            <p>No savings goals found. Set one to start tracking!</p>
+        </div>
+    </div>
+
+    <!-- Create Goal Modal -->
+    <div class="modal" id="goal-modal">
+        <div class="modal-content">
+            <h3 id="modal-title" style="margin-bottom: 1.5rem;">Create Savings Goal</h3>
+            <form id="goal-form">
+                <input type="hidden" id="goal-id">
+                <div class="form-group">
+                    <label class="form-label">Goal Name</label>
+                    <input type="text" id="g-name" class="form-control" required placeholder="e.g. New Laptop">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Target Amount</label>
+                    <input type="number" id="g-target" class="form-control" required placeholder="100000">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Current Saved Amount</label>
+                    <input type="number" id="g-current" class="form-control" required placeholder="0" value="0">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Target Deadline</label>
+                    <input type="date" id="g-deadline" class="form-control" required>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button type="button" class="btn btn-outline" id="btn-cancel" style="flex: 1;">Cancel</button>
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">Save Goal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Funds Modal -->
+    <div class="modal" id="fund-modal">
+        <div class="modal-content">
+            <h3 style="margin-bottom: 1.5rem;">Add Funds to <span id="fund-goal-name"></span></h3>
+            <form id="fund-form">
+                <input type="hidden" id="fund-goal-id">
+                <div class="form-group">
+                    <label class="form-label">Amount to Add</label>
+                    <input type="number" id="f-amount" class="form-control" required placeholder="amount">
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button type="button" class="btn btn-outline" id="btn-cancel-fund" style="flex: 1;">Cancel</button>
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">Add Funds</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/utils.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/components.js"></script>
+    <script type="module" src="js/goals.js"></script>
+</body>
+</html>
+
+
+
