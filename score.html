@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spending Score - SMART EXPENSE TRACKER</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .score-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 3rem 1rem;
+            text-align: center;
+        }
+        .score-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background: conic-gradient(var(--accent-color) 0%, transparent 0%);
+            position: relative;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+            transition: all 1s ease-out;
+        }
+        .score-inner {
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            background: var(--bg-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            position: absolute;
+        }
+        .score-value {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1;
+            color: var(--text-primary);
+        }
+        .grade-badge {
+            margin-top: -10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            padding: 0.25rem 1rem;
+            border-radius: var(--radius-full);
+            color: #fff;
+            position: relative;
+            z-index: 10;
+        }
+        /* Grades */
+        .grade-a { background: #10b981; }
+        .grade-b { background: #3b82f6; }
+        .grade-c { background: #f59e0b; }
+        .grade-d { background: #f97316; }
+        .grade-f { background: #ef4444; }
+        
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        @media (max-width: 900px) {
+            .layout-grid { grid-template-columns: 1fr; }
+        }
+        .tip-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .tip-item:last-child { border-bottom: none; }
+        .tip-icon { font-size: 1.5rem; color: var(--accent-color); }
+    </style>
+</head>
+<body>
+    <div class="spinner-overlay" id="loading-spinner"><div class="spinner"></div></div>
+
+    <div id="app-container">
+        
+        <!-- Top Main Layout -->
+        <div class="glass-panel score-container fade-in">
+            <h2>Your Monthly Spending Score</h2>
+            <p style="margin-bottom: 2rem;">A dynamic rating based on your budget compliance and smart spending choices.</p>
+            
+            <div class="score-circle" id="score-circle">
+                <div class="score-inner">
+                    <span class="score-value" id="score-value">0</span>
+                    <span style="font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 2px;">Out of 100</span>
+                </div>
+            </div>
+            
+            <div id="grade-badge" class="grade-badge grade-f" style="box-shadow: 0 4px 15px rgba(0,0,0,0.1);">Grade: F</div>
+        </div>
+
+        <div class="layout-grid fade-in">
+            <!-- Left: Algorithmic Tips -->
+            <div class="glass-panel" style="padding: 2rem;">
+                <h3 style="margin-bottom: 1.5rem;"><i class="fa-solid fa-lightbulb" style="color: var(--warning);"></i> Personalized Action Tips</h3>
+                <div id="tips-container">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <!-- Right: Historical Graph -->
+            <div class="glass-panel" style="padding: 2rem;">
+                <h3 style="margin-bottom: 1.5rem;"><i class="fa-solid fa-chart-area" style="color: var(--accent-color);"></i> Score History</h3>
+                <div class="chart-container" style="height: 250px;">
+                    <canvas id="scoreChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/utils.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/components.js"></script>
+    <script type="module" src="js/score.js"></script>
+</body>
+</html>
+
+
+
