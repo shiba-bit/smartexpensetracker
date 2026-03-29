@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Insights - SMART EXPENSE TRACKER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .ai-header {
+            display: flex; gap: 1.5rem; align-items: center; padding: 2rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(16, 185, 129, 0.1) 100%);
+            border-radius: var(--radius-lg); margin-bottom: 2rem; border: 1px solid var(--glass-border);
+        }
+        .ai-robot {
+            font-size: 3rem; color: var(--accent-color);
+            background: var(--bg-secondary); width: 80px; height: 80px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; box-shadow: var(--shadow-md);
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .insight-card {
+            background: var(--bg-secondary); border-radius: var(--radius-lg);
+            padding: 1.5rem; margin-bottom: 1rem; border-left: 5px solid var(--accent-color);
+            box-shadow: var(--shadow-sm); display: flex; gap: 1rem;
+        }
+        .insight-icon { font-size: 1.5rem; }
+        .insight-content h4 { margin-top: 0; margin-bottom: 0.5rem; }
+        .insight-content p { margin: 0; }
+        
+        .type-warning { border-left-color: var(--warning); }
+        .type-warning .insight-icon { color: var(--warning); }
+        .type-success { border-left-color: var(--success); }
+        .type-success .insight-icon { color: var(--success); }
+        .type-info { border-left-color: var(--info); }
+        .type-info .insight-icon { color: var(--info); }
+        
+        .pulse { animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="spinner-overlay" id="loading-spinner"><div class="spinner"></div></div>
+
+    <div id="app-container">
+        
+        <div class="ai-header">
+            <div class="ai-robot"><i class="fa-solid fa-robot"></i></div>
+            <div>
+                <h2 style="margin-bottom: 0.5rem;">Smart AI Insights</h2>
+                <p>Analyzing your spending patterns to provide personalized money-saving suggestions.</p>
+                <button class="btn btn-primary" id="btn-analyze" style="margin-top: 1rem;">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Generate New Insights
+                </button>
+            </div>
+        </div>
+
+        <div id="insights-container">
+            <div class="empty-state pulse" id="ai-loading" style="display: none;">
+                <i class="fa-solid fa-microchip"></i>
+                <p>Analyzing transactions... Crunching numbers... Generating heuristic insights...</p>
+            </div>
+            
+            <div id="insights-list">
+                <!-- Data injected here -->
+                <div class="empty-state">
+                    <p>Click the button above to generate personalized suggestions.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/utils.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/components.js"></script>
+    <script type="module" src="js/ai-insights.js"></script>
+</body>
+</html>
+
+
+
