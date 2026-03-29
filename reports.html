@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - SMART EXPENSE TRACKER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <style>
+        .chart-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        @media (max-width: 900px) {
+            .chart-grid { grid-template-columns: 1fr; }
+        }
+        .report-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="spinner-overlay" id="loading-spinner"><div class="spinner"></div></div>
+
+    <div id="app-container">
+        
+        <div style="display: flex; justify-content: space-between; margin-bottom: 1.5rem;">
+            <div></div> <!-- Spacer -->
+            <button class="btn btn-outline" id="btn-export">
+                <i class="fa-solid fa-file-csv"></i> Export CSV
+            </button>
+        </div>
+
+        <div class="chart-grid">
+            <!-- Income vs Expense Bar Chart -->
+            <div class="report-card" style="grid-column: 1 / -1;">
+                <div class="report-header">
+                    <h3 style="margin: 0;">Income vs Expense (Last 6 Months)</h3>
+                </div>
+                <div class="chart-container" style="height: 350px;">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Expense by Category Pie -->
+            <div class="report-card">
+                <div class="report-header">
+                    <h3 style="margin: 0;">Category Breakdown</h3>
+                    <input type="month" id="pie-month" class="form-control" style="max-width: 150px; padding: 0.3rem 0.6rem;">
+                </div>
+                <div class="chart-container">
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Daily Spending Line Chart -->
+            <div class="report-card">
+                <div class="report-header">
+                    <h3 style="margin: 0;">Daily Spending This Month</h3>
+                </div>
+                <div class="chart-container">
+                    <canvas id="lineChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-grid" style="margin-top: 1.5rem;">
+            <!-- Mood Regret Bar Chart -->
+            <div class="report-card" style="grid-column: 1 / -1;">
+                <div class="report-header">
+                    <h3 style="margin: 0;">Emotional Spending Analysis</h3>
+                    <p style="font-size: 0.85rem; margin:0; padding-top:4px; color:var(--text-secondary);">% of transactions marked as Regret (Per Category)</p>
+                </div>
+                <div class="chart-container" style="height: 300px;">
+                    <canvas id="moodChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/utils.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/components.js"></script>
+    <script type="module" src="js/reports.js"></script>
+</body>
+</html>
+
+
+
