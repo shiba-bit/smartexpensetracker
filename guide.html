@@ -1,0 +1,322 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Guide - SMART EXPENSE TRACKER</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .guide-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .hero-banner {
+            background: linear-gradient(135deg, var(--accent-color) 0%, #4338ca 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-banner::after {
+            content: '\f5fc'; /* Compass icon */
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            right: -20px;
+            bottom: -40px;
+            font-size: 10rem;
+            opacity: 0.1;
+        }
+
+        /* Animated Video Simulation Window */
+        .video-simulation {
+            width: 100%;
+            height: 450px;
+            background: #1e293b;
+            border-radius: var(--radius-lg);
+            border: 4px solid #334155;
+            position: relative;
+            margin-bottom: 3rem;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .video-header {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 30px;
+            background: #334155;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            gap: 6px;
+        }
+        .mac-dot { width: 12px; height: 12px; border-radius: 50%; }
+        .red-dot { background: #ef4444; }
+        .yellow-dot { background: #f59e0b; }
+        .green-dot { background: #10b981; }
+
+        .anim-screen {
+            position: absolute;
+            top: 30px; left: 0; right: 0; bottom: 0;
+            background: #f8fafc;
+            display: flex;
+        }
+        .anim-sidebar {
+            width: 80px;
+            background: #ffffff;
+            border-right: 1px solid #e2e8f0;
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .anim-nav {
+            width: 40px; height: 40px; border-radius: 8px; background: #e2e8f0;
+            animation: pulse-nav 4s infinite;
+        }
+        .anim-main {
+            flex-grow: 1;
+            padding: 20px;
+            position: relative;
+        }
+        .anim-card {
+            width: 200px; height: 100px; background: #fff; border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px;
+            animation: slide-up 1s ease-out;
+        }
+        .anim-chart {
+            width: 100%; height: 150px; background: linear-gradient(to top, rgba(99, 102, 241, 0.2), transparent);
+            border-bottom: 2px solid #6366f1; border-radius: 8px;
+            position: relative;
+        }
+        .anim-pointer {
+            width: 20px; height: 20px;
+            position: absolute;
+            z-index: 100;
+            fill: #1e293b;
+            animation: move-pointer 6s infinite;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+        }
+
+        @keyframes pulse-nav { 0% { background: #e2e8f0; } 50% { background: #6366f1; } 100% { background: #e2e8f0; } }
+        @keyframes slide-up { 0% { transform: translateY(20px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
+        @keyframes move-pointer {
+            0% { top: 80%; left: 80%; opacity: 0; }
+            5% { top: 80%; left: 80%; opacity: 1; }
+            20% { top: 30px; left: -60px; } /* move to sidebar */
+            25% { transform: scale(0.8); } /* click */
+            30% { transform: scale(1); }
+            50% { top: 150px; left: 100px; } /* move to card */
+            55% { transform: scale(0.8); } /* click */
+            60% { transform: scale(1); }
+            95% { top: 80%; left: 80%; opacity: 1; }
+            100% { top: 80%; left: 80%; opacity: 0; }
+        }
+
+        .guide-section {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+        @media (max-width: 900px) {
+            .guide-section { flex-direction: column; }
+        }
+        .guide-icon {
+            font-size: 3rem;
+            color: var(--accent-color);
+            background: rgba(99, 102, 241, 0.1);
+            width: 80px; height: 80px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 20px;
+            flex-shrink: 0;
+        }
+
+        h2 { margin-bottom: 1rem; color: var(--text-primary); }
+        p { color: var(--text-secondary); margin-bottom: 1rem; font-size: 1.05rem; }
+    </style>
+</head>
+<body>
+    <div id="app-container">
+        
+        <div class="guide-container">
+            <div class="hero-banner fade-in">
+                <h1 style="color: white; margin-bottom: 10px;">Interactive System Guide ðŸ“˜</h1>
+                <p style="color: rgba(255,255,255,0.8); max-width: 600px; margin: 0 auto; font-size: 1.1rem;">
+                    Welcome to your highly advanced Personal Finance Tracker. Below is everything you need to know to harness its full power.
+                </p>
+            </div>
+
+            <!-- CSS Animated Video Simulation -->
+            <div class="video-simulation fade-in">
+                <div class="video-header">
+                    <div class="mac-dot red-dot"></div><div class="mac-dot yellow-dot"></div><div class="mac-dot green-dot"></div>
+                </div>
+                <div class="anim-screen">
+                    <div class="anim-sidebar">
+                        <div class="anim-nav"></div>
+                        <div class="anim-nav" style="animation-delay: 2s;"></div>
+                        <div class="anim-nav" style="animation-delay: 4s;"></div>
+                    </div>
+                    <div class="anim-main">
+                        <div style="display: flex; gap: 20px;">
+                            <div class="anim-card"></div>
+                            <div class="anim-card" style="animation-delay: 0.2s;"></div>
+                        </div>
+                        <div class="anim-chart"></div>
+
+                        <!-- Animated SVG Cursor -->
+                        <svg class="anim-pointer" viewBox="0 0 24 24">
+                            <path d="M7 2l12 11.2-5.8.5 3.3 7.3-2.2.9-3.2-7.4-4.4 3.9z" stroke="white" stroke-width="1"/>
+                        </svg>
+
+                        <!-- Overlay text label to indicate simulation -->
+                        <div style="position: absolute; bottom: 20px; right: 20px; background: rgba(0,0,0,0.5); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;">System Walkthrough Simulation Active</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Documentation Sections -->
+            <div class="guide-section fade-in">
+                <div class="guide-icon"><i class="fa-solid fa-camera"></i></div>
+                <div>
+                    <h2>1. AI Receipt Scanner (OCR)</h2>
+                    <p>Stop typing expenses manually! On the <strong data-i18n="navExpenses">Expenses</strong> page, click the <span style="font-weight: 600; color: var(--accent-color);">Scan Bill</span> button.</p>
+                    <p>Upload any picture of a handwritten or printed receipt. The system uses a powerful cloud API (OCR.space Engine 2) to scan the image, intelligently extract the Total Amount & Date, and auto-fill your new expense form instantly.</p>
+                </div>
+            </div>
+
+            <div class="guide-section fade-in">
+                <div class="guide-icon" style="color: #ef4444; background: rgba(239, 68, 68, 0.1);"><i class="fa-solid fa-fire-flame-curved"></i></div>
+                <div>
+                    <h2>2. No Spend Days (Challenge Mode)</h2>
+                    <p>Gamify your savings! Complete a day without logging any expenses. Navigate to the <strong>No Spend Days</strong> tab.</p>
+                    <p>Click "Mark Today". If you haven't spent money, the system locks it in and increases your streak. If you accidentally log one, you can click <strong style="color: #ef4444;">Unlock Today</strong> to gracefully exit the challenge and repair the ledger.</p>
+                </div>
+            </div>
+
+            <div class="guide-section fade-in">
+                <div class="guide-icon" style="color: #10b981; background: rgba(16, 185, 129, 0.1);"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                <div>
+                    <h2>3. Expense Time Machine</h2>
+                    <p>Beat lifestyle creep. Go to the <strong>Time Machine</strong> tab to dynamically compare this month to a past month.</p>
+                    <p>The system mathematically renders row-by-row comparisons for every category to instantly identify where you are bleeding cash over time.</p>
+                </div>
+            </div>
+
+            <div class="guide-section fade-in">
+                <div class="guide-icon" style="color: #f59e0b; background: rgba(245, 158, 11, 0.1);"><i class="fa-solid fa-star-half-stroke"></i></div>
+                <div>
+                    <h2>4. Spending Score Engine</h2>
+                    <p>Located on your Dashboard. Every time you log an expense, the engine aggressively compares it against your Monthly Budget.</p>
+                    <p>You are automatically assigned a dynamic grade (A through F). Approaching your budget drops your score linearly. Puncturing it destroys your score exponentially.</p>
+                </div>
+            </div>
+
+            <div class="guide-section fade-in">
+                <div class="guide-icon" style="color: #6366f1; background: rgba(99, 102, 241, 0.1);"><i class="fa-solid fa-user-pen"></i></div>
+                <div>
+                    <h2>5. User Profile Management</h2>
+                    <p>Personalize your experience! Navigate to the <strong>Profile</strong> tab (or click your Avatar in the header).</p>
+                    <p>You can update your display name, link a phone number, and write a short bio about your financial goals. Your display name seamlessly syncs across the whole application.</p>
+                </div>
+            </div>
+
+            <div class="guide-section fade-in">
+                <div class="guide-icon" style="color: #ec4899; background: rgba(236, 72, 153, 0.1);"><i class="fa-solid fa-language"></i></div>
+                <div>
+                    <h2>6. Multi-Language Support (i18n)</h2>
+                    <p>The system speaks your language. Go to <strong>Settings > Preferences</strong> to find the Language dropdown.</p>
+                    <p>Select English, EspaÃ±ol, or Hindi. The entire layout, dashboard, navigation, and core labels will update instantly without needing to refresh the page.</p>
+                </div>
+            </div>
+
+            <div class="guide-section fade-in">
+                <div class="guide-icon" style="color: #14b8a6; background: rgba(20, 184, 166, 0.1);"><i class="fa-solid fa-file-csv"></i></div>
+                <div>
+                    <h2>7. Data Export to CSV</h2>
+                    <p>Keep offline records. On the <strong>Expenses</strong> page, click the green <strong>Export</strong> button near the top left.</p>
+                    <p>The system gathers all currently filtered financial logs and packages them into a cleanly formatted Excel/Numbers compatible CSV file that downloads directly to your device.</p>
+                </div>
+            </div>
+
+            <div class="guide-section fade-in">
+                <div class="guide-icon" style="color: #8b5cf6; background: rgba(139, 92, 246, 0.1);"><i class="fa-solid fa-money-bill-wave"></i></div>
+                <div>
+                    <h2>8. Budget Planning</h2>
+                    <p>Control your spending before it happens using the <strong>Budget</strong> page.</p>
+                    <p>You can allocate specific monthly limits for every category (Food, Transport, etc.). As you log expenses, the visual progress bars fill up. Approaching 100% of your allocated budget turns the bar red and lowers your Spending Score.</p>
+                </div>
+            </div>
+
+            <div class="guide-section fade-in">
+                <div class="guide-icon" style="color: #10b981; background: rgba(16, 185, 129, 0.1);"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                <div>
+                    <h2>9. Income Management</h2>
+                    <p>Track your cash flow! Head over to the <strong>Income</strong> page to record your incoming cash (Salary, Freelance, Pocket Money).</p>
+                    <p>Just like expenses, you can tag each income source. The Dashboard uses this data against your total expenses to calculate your <strong>Net Balance</strong> and available funds automatically.</p>
+                </div>
+            </div>
+
+            <div class="guide-section fade-in">
+                <div class="guide-icon" style="color: #f43f5e; background: rgba(244, 63, 94, 0.1);"><i class="fa-solid fa-bullseye"></i></div>
+                <div>
+                    <h2>10. Savings Goals</h2>
+                    <p>Planning to buy a laptop or take a trip? Go to the <strong>Goals</strong> tab to track long-term savings.</p>
+                    <p>Create a Goal with a Target Amount. Whenever you save money, log an addition directly to that goal. The widget calculates what percentage of the goal has been achieved and highlights your primary goal strictly on the main Dashboard.</p>
+                </div>
+            </div>
+
+            <div class="guide-section fade-in">
+                <div class="guide-icon" style="color: #3b82f6; background: rgba(59, 130, 246, 0.1);"><i class="fa-solid fa-calendar-days"></i></div>
+                <div>
+                    <h2>11. Smart Calendar View</h2>
+                    <p>Need a bird's-eye view of your finances? Check out the <strong>Calendar</strong> page.</p>
+                    <p>This intuitive grid plots every single transaction you've made directly onto its corresponding footprint of the month. Perfect for identifying spending clusters, expensive weekends, or recurring bills visually.</p>
+                </div>
+            </div>
+
+            <div class="guide-section fade-in">
+                <div class="guide-icon" style="color: #d946ef; background: rgba(217, 70, 239, 0.1);"><i class="fa-solid fa-chart-line"></i></div>
+                <div>
+                    <h2>12. Advanced Reports & Analytics</h2>
+                    <p>Don't just track data, understand it! Open the <strong>Reports</strong> page for deep-dive analytics.</p>
+                    <p>You can generate custom breakdowns summarizing your category spending using dynamic Donut and Line charts. Easily compare your largest cash drains instantly.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Firebase App -->
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/utils.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/components.js"></script>
+    <script type="module">
+        import { requireAuth } from './js/auth.js';
+        import { setupCommonUI } from './js/components.js';
+        requireAuth((user) => setupCommonUI('app-container', 'guide', 'User Guides & Manual', user));
+    </script>
+</body>
+</html>
+
+
+
