@@ -1,0 +1,213 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expenses - SMART EXPENSE TRACKER</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .expense-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .filters {
+            display: flex;
+            gap: 1rem;
+            flex-grow: 1;
+        }
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+        th, td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        th {
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        tr:hover td {
+            background-color: rgba(99, 102, 241, 0.05);
+        }
+        .category-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            background: var(--bg-primary);
+        }
+        .action-btns {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .btn-icon {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            font-size: 1.1rem;
+        }
+        .btn-icon:hover { color: var(--accent-color); }
+        .btn-icon.delete:hover { color: var(--danger); }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center; justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 500px;
+            animation: slideIn 0.3s forwards;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-glass);
+        }
+    </style>
+</head>
+<body>
+    <div class="spinner-overlay" id="loading-spinner"><div class="spinner"></div></div>
+
+    <div id="app-container">
+        <!-- Main Component gets injected here via components.js -->
+        
+        <div class="expense-controls">
+            <div class="filters">
+                <input type="text" id="search-input" class="form-control" placeholder="Search expenses..." style="max-width: 250px;">
+                <select id="filter-category" class="form-control" style="max-width: 200px;">
+                    <option value="">All Categories</option>
+                    <!-- Populated by JS -->
+                </select>
+                <input type="month" id="filter-month" class="form-control" style="max-width: 200px;">
+            </div>
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <button class="btn btn-outline" id="btn-export-csv" style="color: var(--success); border-color: var(--success);" title="Export to CSV">
+                    <i class="fa-solid fa-download"></i> Export
+                </button>
+                <button class="btn btn-outline" id="btn-ocr-scan" style="color: #6366f1; border-color: #6366f1;" title="Auto-fill via AI Receipt Scanner">
+                    <i class="fa-solid fa-camera"></i> Scan Bill
+                </button>
+                <input type="file" id="ocr-file-input" accept="image/*" style="display: none;">
+                <button class="btn btn-primary" id="btn-add-expense">
+                    <i class="fa-solid fa-plus"></i> Add Expense
+                </button>
+            </div>
+        </div>
+
+        <div class="glass-panel" style="padding: 1.5rem;">
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Mood</th>
+                            <th>Mode</th>
+                            <th>Amount</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expenses-table-body">
+                        <!-- Populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+            <div id="empty-state" class="empty-state hidden">
+                <i class="fa-solid fa-file-invoice-dollar"></i>
+                <p>No expenses found.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div class="modal" id="expense-modal">
+        <div class="modal-content">
+            <h3 id="modal-title" style="margin-bottom: 1.5rem; font-size: 1.5rem;">Add Expense</h3>
+            <form id="expense-form">
+                <input type="hidden" id="expense-id">
+                <div class="form-group">
+                    <label class="form-label">Amount</label>
+                    <input type="number" step="0.01" id="exp-amount" class="form-control" required placeholder="e.g. 150.00">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <input type="text" id="exp-desc" class="form-control" required placeholder="What was this for?">
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label">Date</label>
+                        <input type="date" id="exp-date" class="form-control" required>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label class="form-label">Category</label>
+                        <select id="exp-category" class="form-control" required>
+                            <!-- Populated dynamically -->
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Payment Mode</label>
+                    <select id="exp-mode" class="form-control" required>
+                        <option value="Cash">Cash</option>
+                        <option value="Card">Card</option>
+                        <option value="UPI/Digital">UPI / Digital Wallet</option>
+                        <option value="Net Banking">Net Banking</option>
+                    </select>
+                </div>
+                <!-- MOOD -->
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label class="form-label">How did this purchase make you feel?</label>
+                    <select id="exp-mood" class="form-control" required>
+                        <option value="Happy">Happy ðŸ˜Š</option>
+                        <option value="Worth it">Worth it ðŸ’Ž</option>
+                        <option value="Neutral">Neutral ðŸ˜</option>
+                        <option value="Regret">Regret ðŸ˜°</option>
+                    </select>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button type="button" class="btn btn-outline" id="btn-cancel" style="flex: 1;">Cancel</button>
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">Save Expense</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/utils.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/components.js"></script>
+    <script type="module" src="js/expenses.js"></script>
+</body>
+</html>
+
+
+
