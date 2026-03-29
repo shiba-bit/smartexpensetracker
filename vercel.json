@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "name": "expense-tracker-system",
+  "builds": [
+    {
+      "src": "**/*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "css/**/*.css",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "js/**/*.js",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ]
+}
