@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - SMART EXPENSE TRACKER</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <div class="spinner-overlay" id="loading-spinner">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- App Container wrapped by components.js -->
+    <div id="app-container">
+        
+        <!-- Dashboard Grid (4 Cards) -->
+        <div class="dashboard-grid">
+            <div class="glass-panel summary-card">
+                <div class="card-header">
+                    <span>Income (This Month)</span>
+                    <div class="card-icon icon-income"><i class="fa-solid fa-arrow-turn-down"></i></div>
+                </div>
+                <div class="card-amount text-success" id="dash-income">â‚¹0.00</div>
+                <div class="card-footer"><span class="text-success"><i class="fa-solid fa-arrow-up"></i></span> vs last month</div>
+            </div>
+
+            <div class="glass-panel summary-card">
+                <div class="card-header">
+                    <span>Expenses (This Month)</span>
+                    <div class="card-icon icon-expense"><i class="fa-solid fa-arrow-turn-up"></i></div>
+                </div>
+                <div class="card-amount text-danger" id="dash-expense">â‚¹0.00</div>
+                <div class="card-footer" id="dash-expense-footer"><span class="text-danger"><i class="fa-solid fa-arrow-up"></i></span> vs last month</div>
+            </div>
+
+            <div class="glass-panel summary-card">
+                <div class="card-header">
+                    <span>Net Balance</span>
+                    <div class="card-icon icon-balance"><i class="fa-solid fa-scale-balanced"></i></div>
+                </div>
+                <div class="card-amount" id="dash-balance">â‚¹0.00</div>
+                <div class="card-footer">Total available funds</div>
+            </div>
+
+            <div class="glass-panel summary-card">
+                <div class="card-header">
+                    <span>Budget Usage</span>
+                    <div class="card-icon icon-budget"><i class="fa-solid fa-wallet"></i></div>
+                </div>
+                <div class="card-amount" style="font-size: 1.5rem;" id="dash-budget-text">0% Used</div>
+                <div class="progress-container">
+                    <div class="progress-bar bg-success" id="dash-budget-bar" style="width: 0%"></div>
+                </div>
+                <div class="card-footer" id="dash-budget-limit">Limit: â‚¹0.00</div>
+            </div>
+        </div>
+
+        <!-- 2 Column Layout -->
+        <div class="layout-grid">
+            <!-- Left Column: Transactions -->
+            <div class="glass-panel dashboard-panel">
+                <div class="section-title">
+                    <span>Recent Transactions</span>
+                    <a href="expenses.html" style="font-size: 0.9rem; font-weight: 500;">View All</a>
+                </div>
+                <div class="transaction-list" id="recent-transactions">
+                    <div class="empty-state">
+                        <i class="fa-solid fa-receipt"></i>
+                        <p>No recent transactions.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Charts & Savings -->
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <!-- Expense Chart -->
+                <div class="glass-panel dashboard-panel" style="flex: 1;">
+                    <div class="section-title">
+                        <span>Spending by Category</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Savings Goal Prompt -->
+                <div class="glass-panel dashboard-panel">
+                    <div class="section-title">
+                        <span>Active Savings Goal</span>
+                        <a href="goals.html" style="font-size: 0.9rem;"><i class="fa-solid fa-plus"></i></a>
+                    </div>
+                    <div id="dash-goal-widget">
+                        <div class="empty-state" style="padding: 1rem;">
+                            <p style="font-size: 0.9rem;">No active goals.</p>
+                            <a href="goals.html" class="btn btn-outline" style="padding: 0.5rem 1rem; margin-top: 0.5rem; font-size: 0.8rem;">Set a Goal</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Spending Score Widget -->
+                <div class="glass-panel dashboard-panel">
+                    <div class="section-title">
+                        <span>Spending Score</span>
+                        <a href="score.html" style="font-size: 0.9rem;">Details <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                    <div id="dash-score-widget" style="text-align: center; padding: 1rem;">
+                        <span id="dash-score-val" style="font-size: 3rem; font-weight: 800; color: var(--accent-color);">--</span><span style="font-size: 1rem; color: var(--text-secondary);">/100</span>
+                        <div id="dash-score-grade" style="margin-top: 5px; font-weight: 600; padding: 4px 12px; border-radius: 20px; display: inline-block; background: var(--bg-primary);">Grade: --</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weekly Reports -->
+        <div class="glass-panel fade-in" style="margin-top: 1.5rem; padding: 2rem; margin-bottom: 3rem;">
+            <div class="section-title" style="margin-bottom: 1.5rem;">
+                <span style="font-size: 1.25rem;"><i class="fa-solid fa-calendar-week" style="color: var(--warning);"></i> Automated Weekly Report Cards</span>
+            </div>
+            <div id="weekly-reports-container" style="display: flex; gap: 1.5rem; overflow-x: auto; padding-bottom: 1rem;">
+                <!-- Cards injected here -->
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Firebase App -->
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/utils.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/components.js"></script>
+    <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>
+
+
+
