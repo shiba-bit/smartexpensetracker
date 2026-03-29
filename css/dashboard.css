@@ -1,0 +1,196 @@
+/* dashboard.css */
+
+.fade-in {
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Dashboard Grid Layout */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.summary-card {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.card-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+.icon-income { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+.icon-expense { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+.icon-balance { background: rgba(99, 102, 241, 0.15); color: var(--accent-color); }
+.icon-budget { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+
+.card-amount {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-top: 1rem;
+    color: var(--text-primary);
+}
+
+.card-footer {
+    margin-top: 1rem;
+    font-size: 0.85rem;
+}
+
+/* Main Layout Grid */
+.layout-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+}
+
+/* Common Section */
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboard-panel {
+    padding: 1.5rem;
+    height: 100%;
+}
+
+/* Transactions Table */
+.transaction-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.transaction-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: var(--bg-primary);
+    border-radius: var(--radius-md);
+    transition: var(--transition);
+}
+.transaction-item:hover {
+    transform: translateX(5px);
+    box-shadow: var(--shadow-sm);
+}
+
+.t-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.t-icon {
+    font-size: 1.5rem;
+}
+
+.t-info h4 {
+    margin-bottom: 0.2rem;
+    font-size: 1rem;
+}
+.t-info p {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.t-amount {
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+.text-success { color: var(--success) !important; }
+.text-danger { color: var(--danger) !important; }
+.text-warning { color: var(--warning) !important; }
+
+/* Progress Bar */
+.progress-container {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-primary);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin-top: 0.5rem;
+}
+
+.progress-bar {
+    height: 100%;
+    border-radius: var(--radius-full);
+    transition: width 1s ease-in-out;
+}
+.bg-success { background: var(--success); }
+.bg-warning { background: var(--warning); }
+.bg-danger { background: var(--danger); }
+.bg-accent { background: var(--accent-color); }
+
+/* Quick Add Button Layout */
+.floating-action {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 90;
+}
+.fab-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    color: white;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.4);
+    cursor: pointer;
+    transition: var(--transition);
+    border: none;
+}
+.fab-btn:hover {
+    transform: scale(1.1) rotate(90deg);
+}
+
+/* Chart Container */
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-secondary);
+}
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
