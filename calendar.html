@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar - SMART EXPENSE TRACKER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <style>
+        .calendar-header {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;
+        }
+        .calendar-nav { display: flex; gap: 1rem; align-items: center; font-size: 1.25rem; font-weight: 700; }
+        .calendar-nav button { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--text-secondary); transition: var(--transition); }
+        .calendar-nav button:hover { color: var(--accent-color); }
+        
+        .calendar-grid {
+            display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.5rem;
+        }
+        .day-name { text-align: center; font-weight: 600; color: var(--text-secondary); padding: 0.5rem; }
+        
+        .cal-day {
+            background: var(--bg-secondary); border: 1px solid var(--border-color);
+            border-radius: var(--radius-md); min-height: 100px; padding: 0.5rem;
+            display: flex; flex-direction: column; justify-content: space-between;
+            cursor: pointer; transition: var(--transition); position: relative;
+        }
+        .cal-day:hover { transform: scale(1.02); box-shadow: var(--shadow-md); z-index: 10; }
+        .cal-day.empty { background: transparent; border: none; cursor: default; }
+        .cal-day.empty:hover { transform: none; box-shadow: none; }
+        
+        .day-num { font-weight: 600; align-self: flex-start; }
+        .day-spent { align-self: center; font-size: 0.85rem; font-weight: 700; margin-top: auto; }
+        
+        /* Heatmap classes */
+        .heat-low { background-color: rgba(16, 185, 129, 0.15); border-color: var(--success); }
+        .heat-medium { background-color: rgba(245, 158, 11, 0.15); border-color: var(--warning); }
+        .heat-high { background-color: rgba(239, 68, 68, 0.15); border-color: var(--danger); }
+        
+        .modal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: var(--bg-secondary); padding: 2rem; border-radius: var(--radius-lg);
+            width: 100%; max-width: 500px; border: 1px solid var(--border-color);
+            max-height: 80vh; overflow-y: auto;
+        }
+        .day-transaction {
+            display: flex; justify-content: space-between; padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="spinner-overlay" id="loading-spinner"><div class="spinner"></div></div>
+
+    <div id="app-container">
+        
+        <div class="glass-panel" style="padding: 2rem;">
+            <div class="calendar-header">
+                <div class="calendar-nav">
+                    <button id="prev-month"><i class="fa-solid fa-chevron-left"></i></button>
+                    <span id="current-month-year">...</span>
+                    <button id="next-month"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+                <div style="display: flex; gap: 1rem; font-size: 0.85rem; color: var(--text-secondary);">
+                    <div style="display: flex; align-items: center; gap: 0.3rem;"><div style="width: 12px; height: 12px; border-radius: 3px; background: rgba(16, 185, 129, 0.5);"></div> Low</div>
+                    <div style="display: flex; align-items: center; gap: 0.3rem;"><div style="width: 12px; height: 12px; border-radius: 3px; background: rgba(245, 158, 11, 0.5);"></div> Medium</div>
+                    <div style="display: flex; align-items: center; gap: 0.3rem;"><div style="width: 12px; height: 12px; border-radius: 3px; background: rgba(239, 68, 68, 0.5);"></div> High</div>
+                </div>
+            </div>
+
+            <div class="calendar-grid">
+                <div class="day-name">Sun</div><div class="day-name">Mon</div><div class="day-name">Tue</div>
+                <div class="day-name">Wed</div><div class="day-name">Thu</div><div class="day-name">Fri</div>
+                <div class="day-name">Sat</div>
+            </div>
+            <div id="calendar-days" class="calendar-grid">
+                <!-- Days injected by JS -->
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Day Details Modal -->
+    <div class="modal" id="day-modal">
+        <div class="modal-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h3 id="day-modal-title">Transactions</h3>
+                <button class="btn-icon" id="btn-close-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="day-transactions-list">
+                <!-- Injected via JS -->
+            </div>
+            <div id="day-total-spent" style="margin-top: 1rem; text-align: right; font-weight: 700; font-size: 1.2rem;"></div>
+        </div>
+    </div>
+
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/utils.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/components.js"></script>
+    <script type="module" src="js/calendar.js"></script>
+</body>
+</html>
+
+
+
