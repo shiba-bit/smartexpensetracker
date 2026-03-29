@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - SMART EXPENSE TRACKER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .settings-section {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+        .settings-title {
+            font-size: 1.25rem; font-weight: 700;
+            margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;
+            color: var(--text-primary);
+        }
+    </style>
+</head>
+<body>
+    <div class="spinner-overlay" id="loading-spinner"><div class="spinner"></div></div>
+
+    <div id="app-container">
+        <!-- Main Component gets injected here via components.js -->
+        
+        <div class="settings-section">
+            <h3 class="settings-title"><i class="fa-solid fa-palette text-info"></i> Preferences</h3>
+            
+            <form id="preferences-form">
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                    <div class="form-group" style="flex: 1; min-width: 200px;">
+                        <label class="form-label" data-i18n="lblLanguage">Language</label>
+                        <select id="set-language" class="form-control">
+                            <option value="en">English</option>
+                            <option value="hi">à¤¹à¤¿à¤‚à¤¦à¥€</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="flex: 1; min-width: 250px;">
+                        <label class="form-label">Currency Symbol</label>
+                        <select id="set-currency" class="form-control" required>
+                            <option value="â‚¹">Indian Rupee (â‚¹)</option>
+                            <option value="$">US Dollar ($)</option>
+                            <option value="â‚¬">Euro (â‚¬)</option>
+                            <option value="Â£">British Pound (Â£)</option>
+                            <option value="Â¥">Japanese Yen (Â¥)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" style="flex: 1; min-width: 250px;">
+                        <label class="form-label">Default Theme</label>
+                        <select id="set-theme" class="form-control" required>
+                            <option value="light">Light Mode</option>
+                            <option value="dark">Dark Mode</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Preferences</button>
+            </form>
+        </div>
+
+        <div class="settings-section">
+            <h3 class="settings-title"><i class="fa-solid fa-shield-halved text-success"></i> Account Security</h3>
+            <form id="password-form">
+                <div class="form-group" style="max-width: 400px;">
+                    <label class="form-label">Current Password</label>
+                    <input type="password" id="current-pwd" class="form-control" required minlength="6" placeholder="Required for re-authentication">
+                </div>
+                <div class="form-group" style="max-width: 400px;">
+                    <label class="form-label">New Password</label>
+                    <input type="password" id="new-pwd" class="form-control" required minlength="6" placeholder="Minimum 6 characters">
+                </div>
+                <div class="form-group" style="max-width: 400px; margin-bottom: 1.5rem;">
+                    <label class="form-label">Confirm New Password</label>
+                    <input type="password" id="confirm-pwd" class="form-control" required minlength="6" placeholder="Re-enter new password">
+                </div>
+                <button type="submit" class="btn btn-outline" style="border-color: var(--success); color: var(--success);">
+                    Update Password <i class="fa-solid fa-lock" style="margin-left: 5px;"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="settings-section" style="border-color: rgba(239, 68, 68, 0.3); background: rgba(239, 68, 68, 0.02);">
+            <h3 class="settings-title"><i class="fa-solid fa-triangle-exclamation text-danger"></i> Danger Zone</h3>
+            <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">
+                Once you delete your account, there is no going back. Please be certain.
+            </p>
+            <button id="btn-delete-account" class="btn btn-primary" style="background-color: var(--danger);">
+                Delete Account
+            </button>
+        </div>
+
+    </div>
+
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/i18n.js"></script>
+    <script type="module" src="js/utils.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/components.js"></script>
+    <script type="module" src="js/settings.js"></script>
+</body>
+</html>
+
+
+
